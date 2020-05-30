@@ -1,18 +1,38 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
+  config.cache.scope = 'machine' if Vagrant.has_plugin?('vagrant-cachier')
+  config.vm.synced_folder '.', '/vagrant', disabled: true
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "base"
+  config.vm.define "web1" do |web|
+    web.vm.box = "centos/7"
+    web.vm.hostname = 'web'
+    web.vm.network "private_network", ip: "192.168.33.10"
+    web.vm.provider 'virtualbox' do |vb|
+      vb.cpus = 1
+      vb.memory = 512
+    end
+  end
+
+  config.vm.define "web2" do |web|
+    web.vm.box = "centos/7"
+    web.vm.hostname = 'web'
+    web.vm.network "private_network", ip: "192.168.33.11"
+    web.vm.provider 'virtualbox' do |vb|
+      vb.cpus = 1
+      vb.memory = 512
+    end
+  end
+
+  config.vm.define "mongodb" do |mongodb|
+    mongodb.vm.box = "centos/7"
+    mongodb.vm.hostname = 'web1'
+    mongodb.vm.network "private_network", ip: "192.168.33.12"
+    mongodb.vm.provider 'virtualbox' do |vb|
+      vb.cpus = 1
+      vb.memory = 2048
+    end
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
