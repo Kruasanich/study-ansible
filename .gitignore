@@ -1,3 +1,9 @@
 .vagrant
 .ansible
 .git
+tests/*.retry
+*~
+\#*\#
+.\#*
+/.python-version
+*.pyc
